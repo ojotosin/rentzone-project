@@ -21,7 +21,7 @@ variable "environment" {
 # vpc variables
 variable "dev_vpc_cidr" {
     default             = "10.0.0.0/16"
-    description         = "dev vp cidr"
+    description         = "dev vpc cidr"
     type                = string
   
 }
@@ -78,7 +78,7 @@ variable "private_datasubnetAZ2_cidr" {
 # security group variables
 variable "ssh_location" {
     default             = "0.0.0.0/0"
-    description         = "ip from which ssh is allowed"
+    description         = "ip from which ssh to the server is allowed"
     type                = string
   
 }
@@ -128,6 +128,8 @@ variable "operator_email" {
   
 }
 
+
+/*
 # autoscaling group variables
 variable "launch_template_name" {
     default             = "dev-launch-template"
@@ -149,6 +151,8 @@ variable "ec2_instance_type" {
     type                = string
   
 }
+*/
+
 
 variable "ec2_keypair_name" {
     default             = "npop-Keypair"
