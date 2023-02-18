@@ -99,12 +99,6 @@ variable "multi_az_deployment" {
   
 }
 
-# application Load balancer variables
-variable "ssl_certificate_arn" {
-    description         = "SSL certificate arn"
-    type                = string
-  
-}
 
 # SNS topic variables
 variable "operator_email" {
@@ -112,40 +106,6 @@ variable "operator_email" {
     type                = string
   
 }
-
-
-/*
-# autoscaling group variables
-variable "launch_template_name" {
-    default             = "dev-launch-template"
-    description         = "launch template name"
-    type                = string
-  
-}
-
-variable "ec2_image_id" {
-    default             = "ami-0b5ada25b9ba41857" // ami id from snapshot created
-    description         = "ami id"
-    type                = string
-  
-}
-
-variable "ec2_instance_type" {
-    default             = "t2.micro"
-    description         = "ec2 instance type"
-    type                = string
-  
-}
-
-
-
-variable "ec2_keypair_name" {
-    default             = "npop-Keypair"
-    description         = "key pair name"
-    type                = string
-  
-}
-*/
 
 
 # amazon certificate manager variables
@@ -156,13 +116,6 @@ variable "domain_name" {
 }
 
  variable "alternative_names" {
-    description         = "sub domain name"
-    type                = string
-   
- }
-
-
- variable "record_name" {
     description         = "sub domain name"
     type                = string
    
@@ -191,6 +144,14 @@ variable "domain_name" {
 
   variable "container_image" {
     description         = "container image URI"
+    type                = string
+   
+ }
+
+
+# route53 variables
+ variable "record_name" {
+    description         = "sub domain name"
     type                = string
    
  }
