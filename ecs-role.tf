@@ -31,17 +31,17 @@ data "aws_iam_policy_document" "ecs_task_execution_policy_document" {
     ]
 
     resources = [
-      "arn:aws:s3:::${var.project_name}-${var.env_file_bucket_name}/*"   // update with the s3 bucket name
+      "arn:aws:s3:::${var.project_name}-${var.env_file_bucket_name}/*" // update with the s3 bucket name
     ]
   }
 
   statement {
-    actions    = [
+    actions = [
       "s3:GetBucketLocation"
     ]
 
     resources = [
-      "arn:aws:s3:::${var.project_name}-${var.env_file_bucket_name}"    // update with the s3 bucket name
+      "arn:aws:s3:::${var.project_name}-${var.env_file_bucket_name}" // update with the s3 bucket name
     ]
   }
 }
@@ -54,8 +54,8 @@ resource "aws_iam_policy" "ecs_task_execution_policy" {
 
 # create an iam role
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name                = "${var.project_name}-${var.environment}-ecs-task-execution-role"
-  assume_role_policy  = data.aws_iam_policy_document.assume_role_policy.json
+  name               = "${var.project_name}-${var.environment}-ecs-task-execution-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
 # attach ecs task execution policy to the iam role

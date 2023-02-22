@@ -1,16 +1,16 @@
 # create ecs cluster
 resource "aws_ecs_cluster" "ecs_cluster" {
-  name      = "${var.project_name}-${var.environment}-cluster"
+  name = "${var.project_name}-${var.environment}-cluster"
 
   setting {
-    name    = "containerInsights"
-    value   = "disabled"
+    name  = "containerInsights"
+    value = "disabled"
   }
 }
 
 # create cloudwatch log group
 resource "aws_cloudwatch_log_group" "log_group" {
-  name = "/ecs/${var.project_name}-${var.environment}-td"  
+  name = "/ecs/${var.project_name}-${var.environment}-td"
 
   lifecycle {
     create_before_destroy = true
@@ -19,12 +19,12 @@ resource "aws_cloudwatch_log_group" "log_group" {
 
 # create task definition
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                    = "${var.project_name}-${var.environment}-td"   // task definition
-  execution_role_arn        = aws_iam_role.ecs_task_execution_role.arn
-  network_mode              = "awsvpc"
-  requires_compatibilities  = ["FARGATE"]
-  cpu                       = 256
-  memory                    = 512
+  family                   = "${var.project_name}-${var.environment}-td" // task definition
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 256
+  memory                   = 512
 
   runtime_platform {
     operating_system_family = "LINUX"
@@ -32,16 +32,16 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   }
 
   # create container definition
-  container_definitions     = jsonencode([
+  container_definitions = jsonencode([
     {
-      name                  = "${var.project_name}-${var.environment}-container"
-      image                 = "${var.container_image}"
-      essential             = true
+      name      = "${var.project_name}-${var.environment}-container"
+      image     = "${var.container_image}"
+      essential = true
 
-      portMappings          = [
+      portMappings = [
         {
-          containerPort     = 80
-          hostPort          = 80
+          containerPort = 80
+          hostPort      = 80
         }
       ]
 
@@ -51,13 +51,13 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           type  = "s3"
         }
       ]
-      
+
       logConfiguration = {
-        logDriver      = "awslogs",
-        options        = {
-          "awslogs-group"          = "${aws_cloudwatch_log_group.log_group.name}",
-           "awslogs-region"        = "${var.region}",
-          "awslogs-stream-prefix"  = "ecs"
+        logDriver = "awslogs",
+        options = {
+          "awslogs-group"         = "${aws_cloudwatch_log_group.log_group.name}",
+          "awslogs-region"        = "${var.region}",
+          "awslogs-stream-prefix" = "ecs"
         }
       }
     }
@@ -76,14 +76,14 @@ resource "aws_ecs_service" "ecs_service" {
   deployment_maximum_percent         = 200
 
   # task tagging configuration
-  enable_ecs_managed_tags            = false
-  propagate_tags                     = "SERVICE"
+  enable_ecs_managed_tags = false
+  propagate_tags          = "SERVICE"
 
   # vpc and security groups
   network_configuration {
-    subnets                 = [aws_subnet.private_appsubnetAZ1.id, aws_subnet.private_appsubnetAZ2.id]
-    security_groups         = [aws_security_group.container_sg.id]
-    assign_public_ip        = false
+    subnets          = [aws_subnet.private_appsubnetAZ1.id, aws_subnet.private_appsubnetAZ2.id]
+    security_groups  = [aws_security_group.container_sg.id]
+    assign_public_ip = false
   }
 
   # load balancing

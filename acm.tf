@@ -30,7 +30,7 @@ resource "aws_route53_record" "route53_record" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.route53_zone.zone_id 
+  zone_id         = data.aws_route53_zone.route53_zone.zone_id
 }
 
 # validate acm certificates
